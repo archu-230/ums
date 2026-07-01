@@ -8,7 +8,7 @@ module.exports = (err, req, res, next) => {
 
         success: false,
 
-        message: err.message || RESPONSE_MESSAGE.SERVER_ERROR
+        message: err.message || "Internal Server Error"
 
     });
 
