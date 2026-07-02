@@ -4,7 +4,7 @@ const app = require("./app");
 
 const logger = require("./config/logger");
 
-const APPLICATION = require("./constants/applicationConstants");
+const APPLICATION = require("./constants/application");
 
 app.listen(
     APPLICATION.PORT,
