@@ -1,6 +1,6 @@
-const application = {
+const APPLICATION = {
     PORT: process.env.PORT,
-    API_VERSION: "/api/v1"
+    MONGODB_URI: process.env.MONGODB_URI,
 };
 
-module.exports = application;
+module.exports = APPLICATION;
