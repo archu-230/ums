@@ -1,18 +1,11 @@
 const express = require("express");
 const router = express.Router();
 
-router.get("/", (req, res) => {
-    res.status(200).json({
-        success: true,
-        message: "Hi Home"
-    });
-});
+const authRoutes = require("./auth.routes");
+const tokenRoutes = require("./token.routes");
+const ROUTES = require("../constants/routes");
 
-router.get("/about", (req, res) => {
-    res.status(200).json({
-        success: true,
-        message: "Hi About"
-    });
-});
+router.use(ROUTES.API.AUTH.BASE_PATH, authRoutes);
+router.use(ROUTES.API.TOKEN.BASE_PATH, tokenRoutes);
 
 module.exports = router;
