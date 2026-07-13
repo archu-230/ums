@@ -1,0 +1,30 @@
+const { StatusCodes, getReasonPhrase } = require("http-status-codes");
+
+const HTTP_STATUS_CODES = {
+    SUCCESS: StatusCodes.OK,
+    CREATED: StatusCodes.CREATED,
+    NO_CONTENT: StatusCodes.NO_CONTENT,
+
+    BAD_REQUEST: StatusCodes.BAD_REQUEST,
+    UNAUTHORIZED: StatusCodes.UNAUTHORIZED,
+    PAYMENT_REQUIRED: StatusCodes.PAYMENT_REQUIRED,
+    FORBIDDEN: StatusCodes.FORBIDDEN,
+    NOT_FOUND: StatusCodes.NOT_FOUND,
+    METHOD_NOT_ALLOWED: StatusCodes.METHOD_NOT_ALLOWED,
+    NOT_ACCEPTABLE: StatusCodes.NOT_ACCEPTABLE,
+    CONFLICT: StatusCodes.CONFLICT,
+    GONE: StatusCodes.GONE,
+    UNSUPPORTED_MEDIA_TYPE: StatusCodes.UNSUPPORTED_MEDIA_TYPE,
+    UNPROCESSABLE_ENTITY: StatusCodes.UNPROCESSABLE_ENTITY,
+    TOO_MANY_REQUESTS: StatusCodes.TOO_MANY_REQUESTS,
+    INTERNAL_SERVER_ERROR: StatusCodes.INTERNAL_SERVER_ERROR,
+    NOT_IMPLEMENTED: StatusCodes.NOT_IMPLEMENTED,
+    BAD_GATEWAY: StatusCodes.BAD_GATEWAY,
+    SERVICE_UNAVAILABLE: StatusCodes.SERVICE_UNAVAILABLE,
+    GATEWAY_TIMEOUT: StatusCodes.GATEWAY_TIMEOUT,
+};
+
+module.exports = {
+    HTTP_STATUS_CODES,
+    getReasonPhrase,
+};
