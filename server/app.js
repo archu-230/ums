@@ -1,19 +1,44 @@
 const express = require("express");
+const helmet = require("helmet");
+const compression = require("compression");
 
-const errorHandler = require("./middleware/errorHandler");
+const MESSAGES = require("./constants/messages");
 const routes = require("./routes");
-const { httpError, StatusCodes } = require("./lib/httpError");
+const ROUTES = require("./constants/routes");
+const APPLICATION = require("./constants/application");
+const corsConfig = require("./config/cors");
+const { globalApiLimiter } = require("./config/rate-limiters");
+const globalErrorHandler = require("./middleware/global-error-handler");
+const { NotFoundException } = require("./lib/http-exceptions");
 
 const app = express();
 
+app.use(helmet());
+
+app.use(corsConfig);
+
+app.use(compression());
+
 app.use(express.json());
-app.use("/api/v1", routes);
+
+app.use(globalApiLimiter);
+
+app.use(
+    ROUTES.API.BASE_PATH,
+    routes
+);
+
 app.use((req, res, next) => {
-    const error = new Error("Not Found");
-    error.statusCode = 404;
-    next(error);
+    next(
+        new NotFoundException(
+            MESSAGES.APPLICATION.ROUTE_NOT_FOUND
+        )
+    );
 });
 
-app.use(errorHandler);
+app.use(globalErrorHandler);
 
-module.exports = app;
+module.exports = {
+    app,
+    port: APPLICATION.PORT,
+};
