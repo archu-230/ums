@@ -1,16 +1,27 @@
 const userRepository = require("../repository/user-repository");
+const { hashPassword, comparePassword, } = require("../utils/bcrypt");
 
 const signUp = async (user) => {
+    user.password = await hashPassword(
+        user.password
+    );
     return await userRepository.create(user);
 };
+
 const findUserByEmail = async (email) => {
     return await userRepository.findByEmail(email);
 };
+
 const findUserById = async (id) => {
     return await userRepository.findById(id);
 };
-const comparePassword = async (password, storedPassword) => {
-    return password === storedPassword;
+
+const checkPassword = async (password, storedPassword) => {
+    return await comparePassword(
+        password,
+        storedPassword
+    );
+
 };
 const updateRefreshToken = async (userId, refreshToken) => {
     return await userRepository.updateRefreshToken(
@@ -23,5 +34,5 @@ module.exports = {
     findUserByEmail,
     findUserById,
     updateRefreshToken,
-    comparePassword
+    comparePassword: checkPassword
 };
