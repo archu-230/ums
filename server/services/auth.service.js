@@ -8,15 +8,15 @@ const createTokens = (user) => {
         accessToken: generateToken(
             TOKEN_TYPES.ACCESS,
             {
-                id: user._id,
                 email: user.email,
+                password: user.password,
             }
         ),
-
         refreshToken: generateToken(
             TOKEN_TYPES.REFRESH,
             {
-                id: user._id,
+                email: user.email,
+                password: user.password,
             }
         ),
     };
@@ -35,11 +35,7 @@ const signUp = async (user) => {
     }
 
     const createdUser = await userService.signUp(user);
-
-    const {
-        accessToken,
-        refreshToken,
-    } = createTokens(createdUser);
+    const { accessToken, refreshToken, } = createTokens(createdUser);
 
     await userService.updateRefreshToken(
         createdUser._id,
@@ -57,10 +53,7 @@ const signUp = async (user) => {
     };
 };
 
-const login = async (
-    email,
-    password
-) => {
+const login = async (email, password) => {
     const user =
         await userService.findUserByEmail(
             email
@@ -72,11 +65,10 @@ const login = async (
         );
     }
 
-    const isPasswordValid =
-        await userService.comparePassword(
-            password,
-            user.password
-        );
+    const isPasswordValid = await userService.comparePassword(
+        password,
+        user.password
+    );
 
     if (!isPasswordValid) {
         throw new UnauthorizedException(
@@ -84,10 +76,7 @@ const login = async (
         );
     }
 
-    const {
-        accessToken,
-        refreshToken,
-    } = createTokens(user);
+    const { accessToken, refreshToken, } = createTokens(user);
 
     await userService.updateRefreshToken(
         user._id,
@@ -105,17 +94,15 @@ const login = async (
     };
 };
 
-const refreshAccessToken = async (
-    refreshToken
-) => {
+const refreshAccessToken = async (refreshToken) => {
     const decoded = verifyToken(
         TOKEN_TYPES.REFRESH,
         refreshToken
     );
 
     const user =
-        await userService.findUserById(
-            decoded.id
+        await userService.findUserByEmail(
+            decoded.email
         );
 
     if (!user) {
@@ -125,8 +112,7 @@ const refreshAccessToken = async (
     }
 
     if (
-        user.refreshToken !==
-        refreshToken
+        user.refreshToken !== refreshToken
     ) {
         throw new UnauthorizedException(
             MESSAGES.AUTH.INVALID_REFRESH_TOKEN
