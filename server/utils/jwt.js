@@ -3,21 +3,15 @@ const ENV = require("../constants/env");
 
 
 const TOKEN_TYPES = { ACCESS: "access", REFRESH: "refresh", };
-const generateToken = (type, payload) => {
-    const secret =
-        type === TOKEN_TYPES.ACCESS
-            ? ENV.JWT_ACCESS_SECRET
-            : ENV.JWT_REFRESH_SECRET;
 
-    const expiresIn =
-        type === TOKEN_TYPES.ACCESS
-            ? ENV.ACCESS_TOKEN_EXPIRY
-            : ENV.REFRESH_TOKEN_EXPIRY;
+const generateToken = (type, payload) => {
+    const secret = type === TOKEN_TYPES.ACCESS ? ENV.JWT_ACCESS_SECRET : ENV.JWT_REFRESH_SECRET;
+    const expiresIn = type === TOKEN_TYPES.ACCESS ? ENV.ACCESS_TOKEN_EXPIRY : ENV.REFRESH_TOKEN_EXPIRY;
 
     return jwt.sign(
         {
             ...payload,
-            type,
+            type
         },
         secret,
         {
@@ -27,16 +21,10 @@ const generateToken = (type, payload) => {
 };
 
 const verifyToken = (type, token) => {
-
-    const secret =
-        type === TOKEN_TYPES.ACCESS
-            ? ENV.JWT_ACCESS_SECRET
-            : ENV.JWT_REFRESH_SECRET;
-
+    const secret = type === TOKEN_TYPES.ACCESS ? ENV.JWT_ACCESS_SECRET : ENV.JWT_REFRESH_SECRET;
 
     return jwt.verify(
-        token,
-        secret
+        token, secret
     );
 };
 
