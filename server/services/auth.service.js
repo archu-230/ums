@@ -1,5 +1,5 @@
 const userService = require("./user.services");
-const MESSAGES = require("../constants/messages");
+const AUTH = require("../constants/messages/auth");
 const { generateToken, verifyToken, TOKEN_TYPES, } = require("../utils/jwt");
 const { ConflictException, NotFoundException, UnauthorizedException, } = require("../lib/http-exceptions");
 
@@ -30,7 +30,7 @@ const signUp = async (user) => {
 
     if (existingUser) {
         throw new ConflictException(
-            MESSAGES.AUTH.EMAIL_ALREADY_REGISTERED
+           AUTH.EMAIL_ALREADY_REGISTERED
         );
     }
 
@@ -61,7 +61,7 @@ const login = async (email, password) => {
 
     if (!user) {
         throw new NotFoundException(
-            MESSAGES.AUTH.USER_NOT_FOUND
+            AUTH.USER_NOT_FOUND
         );
     }
 
@@ -72,7 +72,7 @@ const login = async (email, password) => {
 
     if (!isPasswordValid) {
         throw new UnauthorizedException(
-            MESSAGES.AUTH.INVALID_CREDENTIALS
+            AUTH.INVALID_CREDENTIALS
         );
     }
 
@@ -107,7 +107,7 @@ const refreshAccessToken = async (refreshToken) => {
 
     if (!user) {
         throw new UnauthorizedException(
-            MESSAGES.AUTH.INVALID_CREDENTIALS
+            AUTH.INVALID_CREDENTIALS
         );
     }
 
@@ -115,7 +115,7 @@ const refreshAccessToken = async (refreshToken) => {
         user.refreshToken !== refreshToken
     ) {
         throw new UnauthorizedException(
-            MESSAGES.AUTH.INVALID_REFRESH_TOKEN
+            AUTH.INVALID_REFRESH_TOKEN
         );
     }
 
