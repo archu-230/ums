@@ -12,7 +12,15 @@ const ROUTES = {
             ACCESS_TOKEN: "/access-token",
             REFRESH_TOKEN: "/refresh-token",
         },
-    },
+        USER: {
+            BASE_PATH: "/users",
+            CREATE: "/",
+            GET_ALL: "/",
+            GET_BY_ID: "/:id",
+            UPDATE: "/:id",
+            DELETE: "/:id"
+        },
+    }, 
 };
 
 module.exports = ROUTES;
