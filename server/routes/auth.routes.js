@@ -6,6 +6,59 @@ const validate = require("../middleware/validations");
 const { signUpValidation, loginValidation } = require("../validators/auth");
 const { signupApiLimiter, loginApiLimiter } = require("../config/rate-limiters");
 const { signUp, login, refreshToken } = require("../controllers/auth.controllers");
+
+
+/**
+ * @swagger
+ * tags:
+ *   name: Authentication
+ *   description: Authentication APIs
+ */
+
+
+/**
+ * @swagger
+ * /auth/signup:
+ *   post:
+ *     summary: Register a new user
+ *     description: Create a new user account
+ *     tags:
+ *       - Authentication
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - name
+ *               - email
+ *               - password
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 example: Archana
+ *               email:
+ *                 type: string
+ *                 example: archana@gmail.com
+ *               password:
+ *                 type: string
+ *                 example: Password@123
+ *     responses:
+ *       201:
+ *         description: User registered successfully
+ *         content:
+ *           application/json:
+ *             example:
+ *               success: true
+ *               message: User created successfully
+ *
+ *       400:
+ *         description: Validation error
+ *
+ *       409:
+ *         description: Email already exists
+ */
 router.post(
     ROUTES.API.AUTH.SIGNUP,
     signupApiLimiter,
@@ -14,6 +67,47 @@ router.post(
     signUp
 );
 
+
+
+/**
+ * @swagger
+ * /auth/login:
+ *   post:
+ *     summary: Login user
+ *     description: Authenticate user and generate access token and refresh token
+ *     tags:
+ *       - Authentication
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *               - password
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 example: archana@gmail.com
+ *               password:
+ *                 type: string
+ *                 example: Password@123
+ *
+ *     responses:
+ *       200:
+ *         description: Login successful
+ *         content:
+ *           application/json:
+ *             example:
+ *               success: true
+ *               data:
+ *                 accessToken: jwt_access_token
+ *                 refreshToken: jwt_refresh_token
+ *
+ *       401:
+ *         description: Invalid email or password
+ */
 router.post(
     ROUTES.API.AUTH.LOGIN,
     loginApiLimiter,
@@ -21,8 +115,42 @@ router.post(
     validate,
     login
 );
+
+
+
+/**
+ * @swagger
+ * /auth/refresh-token:
+ *   post:
+ *     summary: Generate new access token
+ *     description: Generate a new access token using refresh token
+ *     tags:
+ *       - Authentication
+ *
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - refreshToken
+ *             properties:
+ *               refreshToken:
+ *                 type: string
+ *                 example: eyJhbGciOiJIUzI1NiIsInR...
+ *
+ *     responses:
+ *       200:
+ *         description: New access token generated successfully
+ *
+ *       401:
+ *         description: Invalid or expired refresh token
+ */
 router.post(
-    ROUTES.API.AUTH.REFRESH_TOKEN,
+    ROUTES.API.TOKEN.REFRESH_TOKEN,
     refreshToken
 );
+
+
 module.exports = router;
