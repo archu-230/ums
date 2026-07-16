@@ -12,7 +12,6 @@ const signUp = async (req, res, next) => {
             MESSAGES.SUCCESS.USER_REGISTERED,
             result
         );
-
     } catch (error) {
         next(error);
     }
