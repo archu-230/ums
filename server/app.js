@@ -1,6 +1,8 @@
 const express = require("express");
 const helmet = require("helmet");
 const compression = require("compression");
+const swaggerUI = require("swagger-ui-express");
+const swaggerSpec = require("./config/swagger");
 
 const MESSAGES = require("./constants/messages");
 const routes = require("./routes");
@@ -23,6 +25,11 @@ app.use(express.json());
 
 app.use(globalApiLimiter);
 
+app.use(
+    "/api-docs",
+    swaggerUI.serve,
+    swaggerUI.setup(swaggerSpec)
+);
 app.use(
     ROUTES.API.BASE_PATH,
     routes
