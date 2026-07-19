@@ -19,6 +19,7 @@ const findAll = async (
         await Promise.all([
 
             User.find(filter)
+                .collation({ locale: "en", strength: 2 })
                 .sort(sort)
                 .skip(skip)
                 .limit(limit),
