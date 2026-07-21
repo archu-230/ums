@@ -1,6 +1,15 @@
 const userRepository = require("../repository/user-repository");
 const { hashPassword, comparePassword, } = require("../utils/bcrypt");
 
+const updatePassword = async (userId, newPassword) => {
+    const hashedPassword = await hashPassword(newPassword);
+
+    return await userRepository.updatePassword(
+        userId,
+        hashedPassword
+    );
+};
+
 const signUp = async (user) => {
     user.password = await hashPassword(
         user.password
@@ -34,5 +43,6 @@ module.exports = {
     findUserByEmail,
     findUserById,
     updateRefreshToken,
-    comparePassword: checkPassword
+    comparePassword: checkPassword,
+    updatePassword,
 };
