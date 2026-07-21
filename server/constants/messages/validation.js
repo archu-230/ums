@@ -10,6 +10,9 @@ const VALIDATION = {
 
     USER_ID_REQUIRED: "User ID is required.",
     USER_ID_INVALID: "Invalid User ID.",
+
+    IS_BLOCKED_REQUIRED: "isBlocked is required.",
+    IS_BLOCKED_INVALID: "isBlocked must be a boolean value.",
 };
 
 module.exports = VALIDATION;
