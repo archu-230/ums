@@ -7,6 +7,9 @@ const RATE_LIMIT = {
 
     SIGNUP_API_LIMIT:
         "Too many accounts created. Please try again after 1 hour.",
+
+    FORGOT_PASSWORD_API_LIMIT:
+        "Too many password reset requests. Please try again after 15 minutes.",
 };
 
 module.exports = RATE_LIMIT;
