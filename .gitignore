@@ -3,3 +3,6 @@ logs/
 .env
 .env.*
 !.env.example
+# PM2
+.pm2/
+logs/pm2-*.log
