@@ -6,7 +6,16 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node main.js",
-    "dev": "nodemon main.js"
+    "dev": "nodemon main.js",
+    "pm2:start": "pm2 start ecosystem.config.js",
+    "pm2:start:prod": "pm2 start ecosystem.config.js --env production",
+    "pm2:stop": "pm2 stop ums-server",
+    "pm2:restart": "pm2 restart ums-server",
+    "pm2:reload": "pm2 reload ums-server",
+    "pm2:delete": "pm2 delete ums-server",
+    "pm2:logs": "pm2 logs ums-server",
+    "pm2:status": "pm2 status",
+    "pm2:monit": "pm2 monit"
   },
   "keywords": [],
   "author": "",
