@@ -1,18 +1,27 @@
 const { verifyToken, TOKEN_TYPES } = require("../utils/jwt");
 const { UnauthorizedException } = require("../lib/http-exceptions");
 const AUTH = require("../constants/messages/auth");
+const COOKIE_NAMES = require("../constants/cookies");
+
+const extractAccessToken = (req) => {
+    const tokenFromCookie = req.cookies?.[COOKIE_NAMES.ACCESS_TOKEN];
+
+    if (tokenFromCookie) {
+        return tokenFromCookie;
+    }
+
+    const authHeader = req.headers.authorization;
+
+    if (authHeader && authHeader.startsWith("Bearer ")) {
+        return authHeader.split(" ")[1];
+    }
+
+    return null;
+};
 
 const authenticate = (req, res, next) => {
     try {
-        const authHeader = req.headers.authorization;
-
-        if (!authHeader) {
-            throw new UnauthorizedException(
-                AUTH.AUTHORIZATION_TOKEN_REQUIRED
-            );
-        }
-
-        const token = authHeader.split(" ")[1];
+        const token = extractAccessToken(req);
 
         if (!token) {
             throw new UnauthorizedException(
