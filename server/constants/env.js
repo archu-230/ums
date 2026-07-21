@@ -8,6 +8,8 @@ const ENV = {
     ACCESS_TOKEN_EXPIRY: process.env.ACCESS_TOKEN_EXPIRY,
     REFRESH_TOKEN_EXPIRY: process.env.REFRESH_TOKEN_EXPIRY,
 
+    JWT_RESET_PASSWORD_SECRET: process.env.JWT_RESET_PASSWORD_SECRET,
+
     EMAIL_SERVICE: process.env.EMAIL_SERVICE || "gmail",
     EMAIL_HOST: process.env.EMAIL_HOST || "",
     EMAIL_PORT: Number(process.env.EMAIL_PORT) || 587,
