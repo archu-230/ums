@@ -17,17 +17,19 @@ const login = async (payload) => {
     return response.data.data;
 };
 
-const refreshAccessToken = async (refreshToken) => {
-    const response = await axiosClient.post(
-        API_ROUTES.AUTH.REFRESH_TOKEN,
-        {
-            refreshToken,
-        });
+const logout = async () => {
+    const response = await axiosClient.post(API_ROUTES.AUTH.LOGOUT);
+    return response.data;
+};
+
+const getCurrentUser = async () => {
+    const response = await axiosClient.get(API_ROUTES.AUTH.ME);
     return response.data.data;
 };
 
 export default {
     signUp,
     login,
-    refreshAccessToken,
+    logout,
+    getCurrentUser,
 };
