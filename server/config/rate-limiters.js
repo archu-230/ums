@@ -13,7 +13,7 @@ const globalApiLimiter = rateLimit({
 });
 
 const loginApiLimiter = rateLimit({
-    windowMs: 15 * 60 * 1000,
+    windowMs: 5 * 60 * 1000,
     max: 5,
     standardHeaders: true,
     legacyHeaders: false,
@@ -24,7 +24,7 @@ const loginApiLimiter = rateLimit({
 });
 
 const signupApiLimiter = rateLimit({
-    windowMs: 15 * 60 * 1000,
+    windowMs: 5 * 60 * 1000,
     max: 3,
     standardHeaders: true,
     legacyHeaders: false,
@@ -35,7 +35,7 @@ const signupApiLimiter = rateLimit({
 });
 
 const forgotPasswordApiLimiter = rateLimit({
-    windowMs: 15 * 60 * 1000,
+    windowMs: 5 * 60 * 1000,
     max: 5,
     standardHeaders: true,
     legacyHeaders: false,
