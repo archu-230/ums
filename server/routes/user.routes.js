@@ -7,13 +7,15 @@ const getUser = require("../controllers/user/get-user.controller");
 const updateUser = require("../controllers/user/update-user.controller");
 const deleteUser = require("../controllers/user/delete-user.controller");
 
+const blockUser = require("../controllers/user/block-user.controller");
+
 const {
     createUserValidation,
     getUserByIdValidation,
     updateUserValidation,
+    updateBlockStatusValidation,
     deleteUserValidation,
 } = require("../validators/user.validator");
-
 /**
  * @swagger
  * tags:
@@ -213,6 +215,80 @@ router.put(
  *       404:
  *         description: User not found
  */
+
+/**
+ * @swagger
+ * /users/{id}/block-status:
+ *   patch:
+ *     summary: Block or unblock a user
+ *     tags:
+ *       - Users
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - isBlocked
+ *             properties:
+ *               isBlocked:
+ *                 type: boolean
+ *                 example: true
+ *     responses:
+ *       200:
+ *         description: User block status updated
+ *       404:
+ *         description: User not found
+ */
+/**
+ * @swagger
+ * /users/{id}/block-status:
+ *   patch:
+ *     summary: Block or unblock a user
+ *     tags:
+ *       - Users
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - isBlocked
+ *             properties:
+ *               isBlocked:
+ *                 type: boolean
+ *                 example: true
+ *     responses:
+ *       200:
+ *         description: User block status updated
+ *       404:
+ *         description: User not found
+ */
+router.patch(
+    "/:id/block-status",
+    authenticate,
+    updateBlockStatusValidation,
+    validate,
+    blockUser.updateBlockStatus
+);
 router.delete(
     "/:id",
     authenticate,
