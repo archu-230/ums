@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { loginSchema } from "../../libs/validation/authSchema";
 import { useAuth } from "../../hooks/useAuth";
 import LOGIN_MESSAGES from "../../constants/messages/login-messages";
@@ -7,11 +7,13 @@ import getValidationErrors from "../../utils/validation";
 
 const LoginPage = () => {
     const navigate = useNavigate();
+    const location = useLocation();
     const { login } = useAuth();
 
     const [credentials, setCredentials] = useState({ email: "", password: "" });
     const [errors, setErrors] = useState({});
     const [submitError, setSubmitError] = useState("");
+    const [infoMessage] = useState(location.state?.message || "");
 
     const handleChange = (field, value) => {
         setCredentials((prev) => ({ ...prev, [field]: value }));
@@ -67,8 +69,14 @@ const LoginPage = () => {
                             className="w-full border border-gray-300 rounded-lg px-4 py-2"
                         />
                         {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
+                        <div className="text-right mt-1">
+                            <Link to="/forgot-password" className="text-sm text-purple-600 font-semibold">
+                                Forgot password?
+                            </Link>
+                        </div>
                     </div>
 
+                    {infoMessage && <p className="text-green-600 text-sm text-center">{infoMessage}</p>}
                     {submitError && <p className="text-red-500 text-sm text-center">{submitError}</p>}
 
                     <button type="submit" className="w-full py-3 rounded-xl text-white font-semibold bg-gradient-to-r from-purple-600 to-pink-500">
