@@ -5,6 +5,7 @@ import userService from "../../services/user.service";
 import CREATE_USER_MESSAGES from "../../constants/messages/create-user-messages";
 import getValidationErrors from "../../utils/validation";
 import DEFAULT_USER from "../../constants/defaultValues/user";
+import USER_FIELDS from "../../constants/userFields";
 
 const CreateUser = () => {
     const navigate = useNavigate();
