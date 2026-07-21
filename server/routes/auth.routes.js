@@ -1,11 +1,11 @@
 const express = require("express");
 const router = express.Router();
-
+const authenticate = require("../middleware/authenticate");
+const { signUp, login, refreshToken, logout, getCurrentUser } = require("../controllers/auth.controllers");
 const ROUTES = require("../constants/routes");
 const validate = require("../middleware/validations");
 const { signUpValidation, loginValidation } = require("../validators/auth");
 const { signupApiLimiter, loginApiLimiter } = require("../config/rate-limiters");
-const { signUp, login, refreshToken } = require("../controllers/auth.controllers");
 
 
 /**
@@ -153,4 +153,41 @@ router.post(
 );
 
 
+/**
+ * @swagger
+ * /auth/logout:
+ *   post:
+ *     summary: Logout user
+ *     description: Clears auth cookies and revokes the refresh token
+ *     tags:
+ *       - Authentication
+ *     responses:
+ *       200:
+ *         description: Logout successful
+ */
+router.post(
+    ROUTES.API.AUTH.LOGOUT,
+    logout
+);
+
+/**
+ * @swagger
+ * /auth/me:
+ *   get:
+ *     summary: Get current logged-in user
+ *     tags:
+ *       - Authentication
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Current user
+ *       401:
+ *         description: Not authenticated
+ */
+router.get(
+    ROUTES.API.AUTH.ME,
+    authenticate,
+    getCurrentUser
+);
 module.exports = router;
