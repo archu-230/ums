@@ -32,6 +32,14 @@ const updateUser = async (id, payload) => {
     return response.data.data;
 };
 
+const updateBlockStatus = async (id, isBlocked) => {
+    const response = await axiosClient.patch(
+        `${API_ROUTES.USERS.BASE}/${id}/block-status`,
+        { isBlocked }
+    );
+    return response.data.data;
+};
+
 const deleteUser = async (id) => {
     const response = await axiosClient.delete(
         `${API_ROUTES.USERS.BASE}/${id}`);
@@ -43,5 +51,6 @@ export default {
     getUserById,
     createUser,
     updateUser,
+    updateBlockStatus,
     deleteUser,
 };
