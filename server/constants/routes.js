@@ -6,6 +6,20 @@ const ROUTES = {
             BASE_PATH: "/auth",
             SIGNUP: "/signup",
             LOGIN: "/login",
+            LOGOUT: "/logout",
+            ME: "/me",
+
+        },
+        PASSWORD: {
+            BASE_PATH: "/password",
+
+            SEND_OTP: "/otp/send",
+            VERIFY_OTP: "/otp/verify",
+            RESET_WITH_OTP: "/otp/reset",
+
+    
+            SEND_RESET_LINK: "/link/send",
+            RESET_WITH_LINK: "/link/reset",
         },
         TOKEN: {
             BASE_PATH: "/token",
@@ -20,7 +34,7 @@ const ROUTES = {
             UPDATE: "/:id",
             DELETE: "/:id"
         },
-    }, 
+    },
 };
 
 module.exports = ROUTES;
