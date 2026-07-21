@@ -4,6 +4,8 @@ const AUTH = {
     INVALID_CREDENTIALS: "Invalid email or password.",
     INVALID_REFRESH_TOKEN: "Invalid refresh token.",
     UNAUTHORIZED: "Authentication required.",
+    ACCOUNT_BLOCKED: "Your account has been blocked. Please contact the administrator.",
+    REFRESH_TOKEN_MISSING: "Refresh token is missing.",
 
     AUTHORIZATION_TOKEN_REQUIRED: "Authorization token is required.",
     ACCESS_TOKEN_MISSING: "Access token is missing.",
