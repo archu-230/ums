@@ -1,26 +1,28 @@
 const userService = require("./user.services");
 const AUTH = require("../constants/messages/auth");
 const { generateToken, verifyToken, TOKEN_TYPES, } = require("../utils/jwt");
-const { ConflictException, NotFoundException, UnauthorizedException, } = require("../lib/http-exceptions");
+const {
+    ConflictException,
+    NotFoundException,
+    UnauthorizedException,
+    ForbiddenException,
+} = require("../lib/http-exceptions");
 
-const createTokens = (user) => {
-    return {
-        accessToken: generateToken(
-            TOKEN_TYPES.ACCESS,
-            {
-                email: user.email,
-                password: user.password,
-            }
-        ),
-        refreshToken: generateToken(
-            TOKEN_TYPES.REFRESH,
-            {
-                email: user.email,
-                password: user.password,
-            }
-        ),
-    };
-};
+const buildTokenPayload = (user) => ({
+    email: user.email,
+    password: user.password,
+});
+
+const createAccessToken = (user) =>
+    generateToken(TOKEN_TYPES.ACCESS, buildTokenPayload(user));
+
+const createRefreshToken = (user) =>
+    generateToken(TOKEN_TYPES.REFRESH, buildTokenPayload(user));
+
+const createTokens = (user) => ({
+    accessToken: createAccessToken(user),
+    refreshToken: createRefreshToken(user),
+});
 
 const signUp = async (user) => {
     const existingUser =
@@ -30,7 +32,7 @@ const signUp = async (user) => {
 
     if (existingUser) {
         throw new ConflictException(
-           AUTH.EMAIL_ALREADY_REGISTERED
+            AUTH.EMAIL_ALREADY_REGISTERED
         );
     }
 
@@ -62,6 +64,12 @@ const login = async (email, password) => {
     if (!user) {
         throw new NotFoundException(
             AUTH.USER_NOT_FOUND
+        );
+    }
+
+    if (user.isBlocked) {
+        throw new ForbiddenException(
+            AUTH.ACCOUNT_BLOCKED
         );
     }
 
@@ -119,17 +127,49 @@ const refreshAccessToken = async (refreshToken) => {
         );
     }
 
-    const accessToken =
-        generateToken(
-            TOKEN_TYPES.ACCESS,
-            {
-                id: user._id,
-                email: user.email,
-            }
+    if (user.isBlocked) {
+        throw new ForbiddenException(
+            AUTH.ACCOUNT_BLOCKED
         );
+    }
+
+    const accessToken = createAccessToken(user);
 
     return {
         accessToken,
+    };
+};
+
+const logout = async (refreshToken) => {
+    if (!refreshToken) {
+        return;
+    }
+
+    const user =
+        await userService.findUserByRefreshToken(
+            refreshToken
+        );
+
+    if (user) {
+        await userService.updateRefreshToken(user._id, null);
+    }
+};
+
+const getCurrentUser = async (email) => {
+    const user =
+        await userService.findUserByEmail(email);
+
+    if (!user) {
+        throw new UnauthorizedException(
+            AUTH.USER_NOT_FOUND
+        );
+    }
+
+    return {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        isBlocked: user.isBlocked,
     };
 };
 
@@ -137,4 +177,6 @@ module.exports = {
     signUp,
     login,
     refreshAccessToken,
+    logout,
+    getCurrentUser,
 };
