@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { resetWithLinkSchema } from "../../libs/validation/passwordResetSchema";
-import passwordResetService from "../../services/password-reset.service";
+import passwordResetService from "../../services/password-reset-service";
 import FORGOT_PASSWORD_MESSAGES from "../../constants/messages/forgot-password-messages";
 import getValidationErrors from "../../utils/validation";
 
