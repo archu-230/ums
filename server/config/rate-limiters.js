@@ -34,8 +34,20 @@ const signupApiLimiter = rateLimit({
     },
 });
 
+const forgotPasswordApiLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 5,
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: {
+        success: false,
+        message: MESSAGES.RATE_LIMIT.FORGOT_PASSWORD_API_LIMIT,
+    },
+});
+
 module.exports = {
     globalApiLimiter,
     loginApiLimiter,
     signupApiLimiter,
+    forgotPasswordApiLimiter,
 };
