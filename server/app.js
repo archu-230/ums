@@ -1,6 +1,7 @@
 const express = require("express");
 const helmet = require("helmet");
 const compression = require("compression");
+const cookieParser = require("cookie-parser");
 const swaggerUI = require("swagger-ui-express");
 const swaggerSpec = require("./config/swagger");
 
@@ -22,6 +23,8 @@ app.use(corsConfig);
 app.use(compression());
 
 app.use(express.json());
+
+app.use(cookieParser());
 
 app.use(globalApiLimiter);
 
