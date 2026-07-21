@@ -54,6 +54,22 @@ const updateUserValidation = [
         .withMessage(VALIDATION.PASSWORD_MIN_LENGTH),
 ];
 
+const updateBlockStatusValidation = [
+    param("id")
+        .notEmpty()
+        .withMessage(VALIDATION.USER_ID_REQUIRED)
+        .isMongoId()
+        .withMessage(VALIDATION.USER_ID_INVALID),
+
+    body("isBlocked")
+        .notEmpty()
+        .withMessage(VALIDATION.IS_BLOCKED_REQUIRED)
+        .bail()
+        .isBoolean()
+        .withMessage(VALIDATION.IS_BLOCKED_INVALID)
+        .toBoolean(),
+];
+
 const deleteUserValidation = [
     param("id")
         .notEmpty()
@@ -66,5 +82,6 @@ module.exports = {
     createUserValidation,
     getUserByIdValidation,
     updateUserValidation,
+    updateBlockStatusValidation,
     deleteUserValidation,
 };
