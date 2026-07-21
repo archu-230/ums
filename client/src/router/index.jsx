@@ -8,6 +8,9 @@ const CreateUser = lazy(() => import("../pages/createuser"));
 const EditPage = lazy(() => import("../pages/edit"));
 const LoginPage = lazy(() => import("../pages/login"));
 const SignupPage = lazy(() => import("../pages/signup"));
+const ForgotPasswordPage = lazy(() => import("../pages/forgot-password"));
+const ResetPasswordOtpPage = lazy(() => import("../pages/reset-password-otp"));
+const ResetPasswordPage = lazy(() => import("../pages/reset-password"));
 
 const Loader = () => <div>Loading...</div>;
 
@@ -29,6 +32,30 @@ const routes = [
                 element: (
                     <Suspense fallback={<Loader />}>
                         <SignupPage />
+                    </Suspense>
+                ),
+            },
+            {
+                path: "/forgot-password",
+                element: (
+                    <Suspense fallback={<Loader />}>
+                        <ForgotPasswordPage />
+                    </Suspense>
+                ),
+            },
+            {
+                path: "/reset-password-otp",
+                element: (
+                    <Suspense fallback={<Loader />}>
+                        <ResetPasswordOtpPage />
+                    </Suspense>
+                ),
+            },
+            {
+                path: "/reset-password",
+                element: (
+                    <Suspense fallback={<Loader />}>
+                        <ResetPasswordPage />
                     </Suspense>
                 ),
             },
