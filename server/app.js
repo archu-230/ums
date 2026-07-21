@@ -26,13 +26,14 @@ app.use(express.json());
 
 app.use(cookieParser());
 
-app.use(globalApiLimiter);
-
 app.use(
     "/api-docs",
     swaggerUI.serve,
     swaggerUI.setup(swaggerSpec)
 );
+app.use(globalApiLimiter);
+
+
 app.use(
     ROUTES.API.BASE_PATH,
     routes
