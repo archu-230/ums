@@ -62,6 +62,15 @@ const HomePage = () => {
         }
     }, [loadUsers]);
 
+    const toggleBlock = useCallback(async (user) => {
+        try {
+            await userService.updateBlockStatus(user._id, !user.isBlocked);
+            loadUsers();
+        } catch (err) {
+            setError(API_MESSAGES.TOGGLE_BLOCK_FAILED);
+        }
+    }, [loadUsers]);
+
     const handleEdit = useCallback((user) => {
         navigate(`/edit/${user._id}`);
     }, [navigate]);
@@ -89,6 +98,7 @@ const HomePage = () => {
                 onSort={handleSort}
                 onEdit={handleEdit}
                 onDelete={removeUser}
+                onToggleBlock={toggleBlock}
             />
 
             {pagination && <Pagination pagination={pagination} onPageChange={setPage} />}
