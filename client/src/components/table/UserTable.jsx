@@ -11,7 +11,8 @@ const SortArrow = ({ active, order }) => {
         <FaSortDown className="inline-block ml-2 text-xs" />
     );
 };
-const UserTable = ({ users, sortBy, onSort, onEdit, onDelete }) => {
+
+const UserTable = ({ users, sortBy, onSort, onEdit, onDelete, onToggleBlock }) => {
     return (
         <div className="overflow-hidden border border-gray-200 bg-white shadow-xl">
             <div className="overflow-x-auto">
@@ -64,12 +65,22 @@ const UserTable = ({ users, sortBy, onSort, onEdit, onDelete }) => {
                                 </td>
 
                                 <td className="px-6 py-4">
-                                    <div className="flex justify-center gap-3">
+                                    <div className="flex justify-center gap-3 flex-wrap">
                                         <button
                                             onClick={() => onEdit(user)}
                                             className="rounded-lg bg-emerald-500 px-4 py-2 text-sm font-medium text-white shadow hover:bg-emerald-600 transition"
                                         >
                                             Edit
+                                        </button>
+
+                                        <button
+                                            onClick={() => onToggleBlock(user)}
+                                            className={`rounded-lg px-4 py-2 text-sm font-medium text-white shadow transition ${user.isBlocked
+                                                ? "bg-amber-500 hover:bg-amber-600"
+                                                : "bg-slate-600 hover:bg-slate-700"
+                                                }`}
+                                        >
+                                            {user.isBlocked ? "Unblock" : "Block"}
                                         </button>
 
                                         <button
