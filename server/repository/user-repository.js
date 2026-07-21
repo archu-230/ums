@@ -45,6 +45,12 @@ const findByEmail = async (email) => {
     });
 };
 
+const findByRefreshToken = async (refreshToken) => {
+    return await User.findOne({
+        refreshToken,
+    });
+};
+
 const update = async (id, user) => {
     return await User.findByIdAndUpdate(
         id,
@@ -56,9 +62,35 @@ const update = async (id, user) => {
     ).select("-password -refreshToken");
 };
 
+const updateBlockStatus = async (id, isBlocked) => {
+    return await User.findByIdAndUpdate(
+        id,
+        {
+            isBlocked,
+        },
+        {
+            new: true,
+            runValidators: true,
+        }
+    ).select("-password -refreshToken");
+};
+
 const remove = async (id) => {
     return await User.findByIdAndDelete(
         id
+    );
+};
+
+const updatePassword = async (userId, hashedPassword) => {
+    return await User.findByIdAndUpdate(
+        userId,
+        {
+            password: hashedPassword,
+            refreshToken: null,
+        },
+        {
+            new: true,
+        }
     );
 };
 
@@ -77,9 +109,12 @@ const updateRefreshToken = async (userId, refreshToken) => {
 module.exports = {
     create,
     findByEmail,
+    findByRefreshToken,
     findById,
     findAll,
     update,
+    updateBlockStatus,
     remove,
     updateRefreshToken,
+    updatePassword,
 };
