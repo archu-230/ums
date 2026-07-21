@@ -1,7 +1,8 @@
 const cors = require("cors");
+const ENV = require("../constants/env");
 
 const corsConfig = cors({
-    origin: "*",
+    origin: ENV.CLIENT_URL,
     methods: [
         "GET",
         "POST",
