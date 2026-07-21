@@ -7,8 +7,7 @@ const otpCache = new NodeCache({
     useClones: false,
 });
 
-
-const resetTokenCache = new NodeCache({
+const usedResetTokenCache = new NodeCache({
     stdTTL: ENV.RESET_PASSWORD_EXPIRY_MINUTES * 60,
     checkperiod: 60,
     useClones: false,
@@ -16,5 +15,5 @@ const resetTokenCache = new NodeCache({
 
 module.exports = {
     otpCache,
-    resetTokenCache,
+    usedResetTokenCache,
 };
